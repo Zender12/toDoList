@@ -1,0 +1,23 @@
+{
+  "name": "toDoList",
+  "homepage": "https://github.com/Zender12/toDoListLite.git",
+  "authors": [
+    "Zender12@yandex.ru"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "web/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "angularjs#~1.4.8",
+    "Materialize": "materialize#~0.97.5"
+  }
+}
