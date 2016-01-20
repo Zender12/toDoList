@@ -18,7 +18,6 @@
   ],
   "dependencies": {
     "angular": "angularjs#~1.4.8",
-    "Materialize": "materialize#~0.97.5",
-	"material-design-icons-iconfont": "~2.0.2"
+    "Materialize": "materialize#~0.97.5"
   }
 }

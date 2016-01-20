@@ -8,14 +8,14 @@ gulp.task('concat:js', function() {
 			'src/AppBundle/Resources/js/**/*.js'
 		])
 		.pipe(concat('app.js'))
-		.pipe(gulp.dest('./web/assets/js/'))
+		.pipe(gulp.dest('./web/js/'))
 		;
 });
 
 gulp.task('concat:html', function() {
 	return gulp.src('src/AppBundle/Resources/js/*.html')
 		.pipe(templateCache({standalone: true}))
-		.pipe(gulp.dest('./web/assets/templates/'))
+		.pipe(gulp.dest('./web/templates/'))
 		;
 });
 

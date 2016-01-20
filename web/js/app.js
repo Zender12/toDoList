@@ -6,10 +6,7 @@
 	angular.module('app')
 		.controller('IndexController', function($scope, NoteService)
 		{
-			NoteService.getNotes().then(function(notes)
-			{
-				$scope.notes = notes;
-			});
+			$scope.notes = NoteService.getNotes();
 		})
 	;
 })();
@@ -78,7 +75,6 @@
 				return $http.get('/note')
 					.then(function(response)
 					{
-						console.log(response.data);
 						return response.data;
 					})
 					.catch(function(error)
