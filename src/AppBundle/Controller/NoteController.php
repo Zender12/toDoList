@@ -13,13 +13,28 @@ use Symfony\Component\HttpFoundation\Request;
 
 class NoteController extends Controller
 {
-    /**
-     * @Route("/note", name="note_get_all")
-     * @Method("GET")
-     */
-    public function getAllAction()
-    {
+	/**
+	* @Route("/note", name="note_get_all")
+	* @Method("GET")
+	*/
+	public function getAllAction()
+	{
+		$noteRepository = $this->getDoctrine()->getManager()->getRepository(Note::class);
+		$notes = $noteRepository->findAll();
 
-        return new JsonResponse([["title" => 'Note 1', 'content' => 'Note 1 text'], ["title" => 'Note 2', 'content' => 'Note 2 text']]);
-    }
+		$notesNorm = $this->get('serializer')->normalize($notes);
+
+		return new JsonResponse($notesNorm);
+	}
+
+	/**
+	* @Route("/note", name="note_add")
+	* @Method("POST")
+	*/
+	public function addAction(Request $request)
+	{
+		$notesNorm = $this->get('serializer')->normalize($request->getContent());
+		return $notesNorm;
+		var_dump($request->getContent()); die();
+	}
 }

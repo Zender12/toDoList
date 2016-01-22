@@ -1,3 +1,8 @@
+composer install
+npm install
+bower install
+gulp
+
 Symfony Standard Edition
 ========================
 

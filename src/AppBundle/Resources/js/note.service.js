@@ -25,7 +25,16 @@
 
 			function saveNote(note)
 			{
-				return 	notes.unshift(note);;
+				return $http.post('/note', note)
+					.then(function(response)
+					{
+						return response.data;
+					})
+					.catch(function(error)
+					{
+						alert(getErrorMessage(error));
+					})
+				;
 			}
 
 			function createBlankNote()
