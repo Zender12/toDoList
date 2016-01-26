@@ -13,7 +13,6 @@
 				return $http.get('/note')
 					.then(function(response)
 					{
-						console.log(response.data);
 						return response.data;
 					})
 					.catch(function(error)
@@ -51,4 +50,4 @@
 			}
 		})
 	;
-})()
+})();

@@ -15,46 +15,6 @@
 })();
 (function(){
 	angular.module('app')
-		.directive('newNote', function()
-		{
-			return {
-				templateUrl: "new-note.html",
-				scope: {
-					notes: '='
-				},
-				controller: NewNoteController
-			};
-
-			function NewNoteController($scope, NoteService)
-			{
-				$scope.blankNote = null;
-
-				$scope.createNote = createNote;
-				$scope.saveNote = saveNote;
-
-				function createNote()
-				{
-					$scope.blankNote = NoteService.createBlankNote();
-				}
-
-				function saveNote()
-				{
-					if ($scope.blankNote && ($scope.blankNote.title.length > 0 || $scope.blankNote.content.length > 0))
-					{
-						NoteService.saveNote($scope.blankNote).then(function(savedNote)
-						{
-							$scope.notes.unshift(savedNote);
-						});
-					}
-
-					$scope.blankNote = null;
-				}
-			}
-		})
-	;
-})();
-(function(){
-	angular.module('app')
 		.directive('note', function()
 		{
 			return {
@@ -78,7 +38,6 @@
 				return $http.get('/note')
 					.then(function(response)
 					{
-						console.log(response.data);
 						return response.data;
 					})
 					.catch(function(error)
@@ -116,4 +75,83 @@
 			}
 		})
 	;
-})()
+})();
+(function(){
+	angular.module('app')
+		.directive('openEditNoteModal', function()
+		{
+			return {
+
+				link: function($scope, element, attrs) {
+
+					element.click(openEditNoteModal);
+
+					function openEditNoteModal()
+					{
+						//element.html(element + '<a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>');
+					}
+				}	
+			};
+		})
+	;
+})();
+(function(){
+	angular.module('app')
+		.factory('EditNoteService', function($http)
+		{
+			return {
+				test: test
+			};
+
+			function test(error)
+			{
+				alert("test");
+			}
+
+			function getErrorMessage(error)
+			{
+				return 'Error ' + error.status  + ': ' + error.statusText;
+			}
+		})
+	;
+})();
+(function(){
+	angular.module('app')
+		.directive('newNote', function()
+		{
+			return {
+				templateUrl: "new/new-note.html",
+				scope: {
+					notes: '='
+				},
+				controller: NewNoteController
+			};
+
+			function NewNoteController($scope, NoteService)
+			{
+				$scope.blankNote = null;
+
+				$scope.createNote = createNote;
+				$scope.saveNote = saveNote;
+
+				function createNote()
+				{
+					$scope.blankNote = NoteService.createBlankNote();
+				}
+
+				function saveNote()
+				{
+					if ($scope.blankNote && ($scope.blankNote.title.length > 0 || $scope.blankNote.content.length > 0))
+					{
+						NoteService.saveNote($scope.blankNote).then(function(savedNote)
+						{
+							$scope.notes.unshift(savedNote);
+						});
+					}
+
+					$scope.blankNote = null;
+				}
+			}
+		})
+	;
+})();
