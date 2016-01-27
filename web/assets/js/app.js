@@ -18,8 +18,19 @@
 		.directive('note', function()
 		{
 			return {
-				templateUrl: "note.html"
+				templateUrl: "note.html",
+				controller: NoteController
 			};
+
+			function NoteController($scope, NoteService)
+			{
+				$scope.deleteNote = deleteNote;
+				
+				function deleteNote()
+				{
+					NoteService.deleteNote($scope.note);
+				}				
+			}
 		})
 	;
 })();
@@ -30,6 +41,7 @@
 			return {
 				getNotes: getNotes,
 				saveNote: saveNote,
+				deleteNote: deleteNote,
 				createBlankNote: createBlankNote
 			};
 
@@ -61,6 +73,20 @@
 				;
 			}
 
+			function deleteNote(note)
+			{
+				return $http.delete('/note/' + note.id)
+					.then(function(response)
+					{
+						return response.data;
+					})
+					.catch(function(error)
+					{
+						alert(getErrorMessage(error));
+					})
+				;
+			}
+
 			function createBlankNote()
 			{
 				return {
@@ -78,17 +104,38 @@
 })();
 (function(){
 	angular.module('app')
-		.directive('openEditNoteModal', function()
+		.directive('editNoteModal', function($timeout)
 		{
 			return {
-
+				templateUrl: 'edit/edit-note-modal.html', 
+				link: function() {
+						$timeout(function() {
+							$('#editModal').openModal();
+						});
+					}
+			};
+		})
+	;
+})();
+(function(){
+	angular.module('app')
+		.directive('openEditNoteModal', function($compile, $timeout)
+		{
+			return {
+				template: '<a class="btn-floating yellow darken-1"><i class="material-icons">airplay</i></a>',
+				
 				link: function($scope, element, attrs) {
 
 					element.click(openEditNoteModal);
 
 					function openEditNoteModal()
 					{
-						//element.html(element + '<a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>');
+						//при условии что такого окна ещё нет иначе просто открыть
+
+						var linkFn = $compile(angular.element('<edit-note-modal>'));
+						var modal = linkFn($scope);
+						angular.element(document.body).append(modal); // https://docs.angularjs.org/api/ng/service/$compile
+						
 					}
 				}	
 			};

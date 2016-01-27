@@ -1,7 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
- <link href="{{ asset('bower_components/Materialize/dist/css/materialize.min.css') }}" rel="stylesheet">
+<link href="{{ asset('bower_components/Materialize/dist/css/materialize.min.css') }}" rel="stylesheet">
+<link href="{{ asset('bower_components/material-design-icons-iconfont/dist/material-design-icons.css') }}" rel="stylesheet">
+
 {% endblock %}
 
 {% block javascripts %}
@@ -17,7 +19,7 @@
 {% block body %}
     <div ng-app="app" ng-controller="IndexController">
         <nav>
-            <div class="nav-wrapper yellow darken-2"></div>
+            <div class="nav-wrapper blue darken-2"></div>
         </nav>
 
         <div class="content">
