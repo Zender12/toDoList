@@ -3,12 +3,13 @@
 		.directive('editNoteModal', function($timeout)
 		{
 			return {
-				templateUrl: 'edit/edit-note-modal.html', 
+				templateUrl: 'edit/edit-note-modal.html',
+		
 				link: function() {
-						$timeout(function() {
-							$('#editModal').openModal();
-						});
-					}
+					$timeout(function() {
+						$('#editModal').openModal();
+					});
+				}
 			};
 		})
 	;

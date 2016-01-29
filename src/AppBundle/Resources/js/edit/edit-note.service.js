@@ -3,12 +3,21 @@
 		.factory('EditNoteService', function($http)
 		{
 			return {
-				test: test
+				editNote: editNote
 			};
 
-			function test(error)
+			function editNote(note)
 			{
-				alert("test");
+				return $http.put('/note/'+ note.id, note)
+					.then(function(response)
+					{
+						return response.data;
+					})
+					.catch(function(error)
+					{
+						alert(getErrorMessage(error));
+					})
+				;
 			}
 
 			function getErrorMessage(error)

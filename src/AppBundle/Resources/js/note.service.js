@@ -6,7 +6,7 @@
 				getNotes: getNotes,
 				saveNote: saveNote,
 				deleteNote: deleteNote,
-				createBlankNote: createBlankNote
+				createBlankNote: createBlankNote	
 			};
 
 			function getNotes()

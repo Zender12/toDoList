@@ -22,14 +22,18 @@
 				controller: NoteController
 			};
 
-			function NoteController($scope, NoteService)
+			function NoteController($scope, $timeout, NoteService)
 			{
 				$scope.deleteNote = deleteNote;
-				
+
 				function deleteNote()
-				{
-					NoteService.deleteNote($scope.note);
-				}				
+				{					
+					NoteService.deleteNote($scope.note).then(function(notes)
+					{
+						$scope.notes.length = 0;
+						$.merge($scope.notes, notes);
+					});
+				}	
 			}
 		})
 	;
@@ -42,7 +46,7 @@
 				getNotes: getNotes,
 				saveNote: saveNote,
 				deleteNote: deleteNote,
-				createBlankNote: createBlankNote
+				createBlankNote: createBlankNote	
 			};
 
 			function getNotes()
@@ -107,12 +111,13 @@
 		.directive('editNoteModal', function($timeout)
 		{
 			return {
-				templateUrl: 'edit/edit-note-modal.html', 
+				templateUrl: 'edit/edit-note-modal.html',
+		
 				link: function() {
-						$timeout(function() {
-							$('#editModal').openModal();
-						});
-					}
+					$timeout(function() {
+						$('#editModal').openModal();
+					});
+				}
 			};
 		})
 	;
@@ -123,22 +128,53 @@
 		{
 			return {
 				template: '<a class="btn-floating yellow darken-1"><i class="material-icons">airplay</i></a>',
-				
 				link: function($scope, element, attrs) {
 
 					element.click(openEditNoteModal);
 
 					function openEditNoteModal()
 					{
-						//при условии что такого окна ещё нет иначе просто открыть
-
+						$scope.originalNote = {
+							title: $scope.note.title,
+							content: $scope.note.content
+						}
 						var linkFn = $compile(angular.element('<edit-note-modal>'));
 						var modal = linkFn($scope);
-						angular.element(document.body).append(modal); // https://docs.angularjs.org/api/ng/service/$compile
-						
+						angular.element(document.body).append(modal); 
 					}
-				}	
+				},
+				controller: EditNoteController
 			};
+
+			function EditNoteController($scope, EditNoteService)
+			{
+				$scope.editNote = editNote;
+				$scope.closeModal = closeModal;
+
+				function editNote()
+				{
+					if($scope.originalNote.title != $scope.note.title
+						|| $scope.originalNote.content != $scope.note.content
+					)
+					{
+						EditNoteService.editNote($scope.note);
+					}
+
+					$timeout(function() {
+						$('edit-note-modal').remove();
+					});
+				}
+
+				function closeModal()
+				{
+					$scope.note.title = $scope.originalNote.title;
+					$scope.note.content = $scope.originalNote.content;
+
+					$timeout(function() {
+						$('edit-note-modal').remove();
+					});
+				}
+			}
 		})
 	;
 })();
@@ -147,12 +183,21 @@
 		.factory('EditNoteService', function($http)
 		{
 			return {
-				test: test
+				editNote: editNote
 			};
 
-			function test(error)
+			function editNote(note)
 			{
-				alert("test");
+				return $http.put('/note/'+ note.id, note)
+					.then(function(response)
+					{
+						return response.data;
+					})
+					.catch(function(error)
+					{
+						alert(getErrorMessage(error));
+					})
+				;
 			}
 
 			function getErrorMessage(error)

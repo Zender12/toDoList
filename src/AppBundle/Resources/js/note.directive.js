@@ -7,14 +7,18 @@
 				controller: NoteController
 			};
 
-			function NoteController($scope, NoteService)
+			function NoteController($scope, $timeout, NoteService)
 			{
 				$scope.deleteNote = deleteNote;
-				
+
 				function deleteNote()
-				{
-					NoteService.deleteNote($scope.note);
-				}				
+				{					
+					NoteService.deleteNote($scope.note).then(function(notes)
+					{
+						$scope.notes.length = 0;
+						$.merge($scope.notes, notes);
+					});
+				}	
 			}
 		})
 	;

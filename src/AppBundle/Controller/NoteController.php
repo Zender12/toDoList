@@ -57,7 +57,28 @@ class NoteController extends Controller
 
 		$entityManager->remove($note);
 		$entityManager->flush();
+		
+		$noteRepository = $this->getDoctrine()->getManager()->getRepository(Note::class);
+		$notes = $noteRepository->findBy([], ['id' => 'DESC']);
+		$notesNorm = $this->get('serializer')->normalize($notes);
 
-		return new JsonResponse([]); //????????
+		return new JsonResponse($notesNorm); 
 	}
+	/**
+    * @Route("/note/{id}", name="note_edit")
+    * @Method("PUT")
+    */
+    public function editAction(Request $request, Note $note)
+    {
+    	$newNote = json_decode($request->getContent());
+
+		$note->setTitle($newNote->title);
+		$note->setContent($newNote->content);
+
+		$entityManager = $this->getDoctrine()->getManager();
+		$entityManager->persist($note);
+		$entityManager->flush();
+
+    	return new JsonResponse([]); 
+    }
 }
