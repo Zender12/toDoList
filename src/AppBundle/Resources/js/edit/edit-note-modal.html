@@ -1,0 +1,16 @@
+<div id="editModal" class="modal">
+	<div class="modal-content">
+		<div class="input-field">
+			<input ng-model="note.title" ng-value=note.title type="text">
+			<label class="active">Note title</label>
+		</div>
+		<div class="input-field">
+			<textarea ng-model="note.content" class="materialize-textarea">{{note.content}}</textarea>
+			<label class="active">Note content</label>
+		</div>
+	</div> 
+	<div class="modal-footer">
+		<a href="#" ng-click="closeModal()" class="modal-action modal-close waves-effect waves-red btn-flat ">Disagree</a>
+		<a href="#" ng-click="editNote()" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+	</div>
+</div>

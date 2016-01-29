@@ -13,7 +13,7 @@ gulp.task('concat:js', function() {
 });
 
 gulp.task('concat:html', function() {
-	return gulp.src('src/AppBundle/Resources/js/*.html')
+	return gulp.src('src/AppBundle/Resources/js/**/*.html')
 		.pipe(templateCache({standalone: true}))
 		.pipe(gulp.dest('./web/templates/'))
 		;

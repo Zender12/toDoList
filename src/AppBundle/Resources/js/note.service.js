@@ -5,7 +5,8 @@
 			return {
 				getNotes: getNotes,
 				saveNote: saveNote,
-				createBlankNote: createBlankNote
+				deleteNote: deleteNote,
+				createBlankNote: createBlankNote	
 			};
 
 			function getNotes()
@@ -24,7 +25,30 @@
 
 			function saveNote(note)
 			{
-				return 	notes.unshift(note);;
+				return $http.post('/note', note)
+					.then(function(response)
+					{
+						return response.data;
+					})
+					.catch(function(error)
+					{
+						alert(getErrorMessage(error));
+					})
+				;
+			}
+
+			function deleteNote(note)
+			{
+				return $http.delete('/note/' + note.id)
+					.then(function(response)
+					{
+						return response.data;
+					})
+					.catch(function(error)
+					{
+						alert(getErrorMessage(error));
+					})
+				;
 			}
 
 			function createBlankNote()
@@ -41,4 +65,4 @@
 			}
 		})
 	;
-})()
+})();
