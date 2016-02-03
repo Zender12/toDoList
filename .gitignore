@@ -17,5 +17,4 @@
 /web/vendor/
 /.idea/
 bower_components/
-node_modules/
 web/assets/*

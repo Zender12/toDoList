@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+<<<<<<< HEAD
+
+=======
+>>>>>>> origin/dev
+<link href="{{ asset('bower_components/Materialize/dist/css/materialize.min.css') }}" rel="stylesheet">
+<link href="{{ asset('bower_components/material-design-icons-iconfont/dist/material-design-icons.css') }}" rel="stylesheet">
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('../bower_components/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('../bower_components/Materialize/dist/js/materialize.min.js') }}"></script>
+    <script src="{{ asset('../bower_components/angular/angular.min.js') }}"></script>
+
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('templates/templates.js') }}"></script>
+
+{% endblock %}
+
+{% block body %}
+    <div ng-app="app" ng-controller="IndexController">
+        <nav>
+            <div class="nav-wrapper blue darken-2"></div>
+        </nav>
+
+        <div class="content">
+            <div class="row">
+                <div class="col s4 offset-s4">
+                    <new-note notes=notes></new-note>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s4" ng-repeat="note in notes">
+                    <note></note>
+                </div>
+            </div>
+        </div>
+    </div>         
+{% endblock %}
